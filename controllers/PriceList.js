@@ -15,6 +15,7 @@ pricelistControllers.getPriceList = async (req, res) => {
 pricelistControllers.updatePriceList = async (req, res) => {
   try {
     let { id } = req.query;
+    id = Number(id);
     let data = req.body;
 
     let { status, ...rest } = await pricelistServices.updatePriceList(id, data);

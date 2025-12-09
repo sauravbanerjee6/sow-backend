@@ -4,9 +4,7 @@ const pricelistServices = {};
 
 pricelistServices.getPriceList = async () => {
   try {
-    const result = await pool.query(
-      "SELECT id, item_code, name, description, in_price, price, currency, vat_percent, is_active from price_items order by id;"
-    );
+    const result = await pool.query("SELECT * from price_items order by id;");
 
     return { status: result.rowCount === 0 ? 204 : 200, data: result.rows };
   } catch (error) {
@@ -22,18 +20,15 @@ pricelistServices.updatePriceList = async (id, data) => {
     }
 
     let updateResult = await pool.query(
-      ```UPDATE price_items set item_code = $1, name=$2, description=$3, in_price=$4, price=$5, currency=$6, vat_percent=$7, is_active=$8, updated_at=NOW() 
-      WHERE id=$9
-      RETURNING id, item_code, name, description, in_price, price, currency, vat_percent, is_active;```,
+      "UPDATE price_items set item_code = $1, name=$2, description=$3, in_price=$4, price=$5, unit=$6, in_stock=$7, updated_at=NOW() WHERE id=$8 RETURNING *;",
       [
         data.item_code ?? null,
         data.name,
         data.description ?? null,
-        data.in_price,
+        Number(data.in_price),
         data.price,
-        data.currency ?? "EUR",
-        data.vat_percent,
-        data.is_active ?? true,
+        data.unit,
+        data.in_stock,
         id,
       ]
     );
