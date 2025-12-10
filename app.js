@@ -10,7 +10,7 @@ import userServices from "./services/Users.js";
 const app = express();
 
 const allowedOrigins = [
-  "https://sow-frontend-5bpp.onreader.com",
+  "https://sow-frontend-5bpp.onrender.com",
   "http://localhost:5173",
 ];
 
