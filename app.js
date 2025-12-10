@@ -9,13 +9,25 @@ import userServices from "./services/Users.js";
 
 const app = express();
 
+const allowedOrigins = [
+  "https://sow-frontend-5bpp.onreader.com",
+  "http://localhost:5173",
+];
+
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: (origin, cb) => {
+      if (!origin) return cb(null, true);
+      if (allowedOrigins.includes(origin)) cb(null, true);
+      else cb(new Error("not allowd bu CORS"));
+    },
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Headers", "Authorization", "Accept"],
+    credentials: true,
   })
 );
+
+// app.options('/*', cors());
 
 app.use(express.json());
 
