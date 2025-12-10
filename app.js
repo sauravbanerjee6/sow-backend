@@ -33,8 +33,9 @@ app.use(express.json());
 
 app.use("/users", userRoutes);
 app.use("/ui", uiTextsRoutes);
+app.use("/terms", termRoutes);
 
-const openPaths = ["/users/login", "/users/createUser", "/ui/"];
+const openPaths = ["/users/login", "/users/createUser", "/ui/", "/terms"];
 
 app.use((req, res, next) => {
   const path = req.path;
@@ -46,7 +47,6 @@ app.use((req, res, next) => {
   return userServices.verifyToken(req, res, next);
 });
 
-app.use("/terms", termRoutes);
 app.use("/priceList", priceListRoutes);
 
 export default app;
